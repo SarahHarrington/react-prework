@@ -10,7 +10,9 @@ class App extends Component {
   }
 
   render() {
-    
+
+    const newStarList = this.state.starList.map()
+
     return (
       <div>
         <div>
@@ -21,9 +23,6 @@ class App extends Component {
           {/* React can display arrays directly to the DOM */}
         </div>
         <ul>
-          <li></li>
-          <li></li>
-          <li></li>
         </ul>
       </div>
     );
