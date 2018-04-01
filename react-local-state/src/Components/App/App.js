@@ -8,13 +8,15 @@ class App extends Component {
     this.state = {
       user: {
         name: '',
-        city: ''
+        city: '',
+        zipCode: '',
       }
     };
 
     //makes 'this' in handlechange the same as this in the constructor
     this.nameChangeHandler = this.nameChangeHandler.bind(this);
     this.cityChangeHandler = this.cityChangeHandler.bind(this);
+    this.zipChangeHandler = this.zipChangeHandler.bind(this);
 
 
   }
@@ -22,9 +24,9 @@ class App extends Component {
   nameChangeHandler(event) {
     console.log(event.target.value);
     this.setState({
-      user :{ 
+      user: {
+        ...this.state.user,
         name: event.target.value,
-        city: this.state.user.city
       }
     })
   }
@@ -33,8 +35,18 @@ class App extends Component {
     console.log(event.target.value);
     this.setState({
       user: {
-        name: this.state.user.name,
+        ...this.state.user,
         city: event.target.value
+      }
+    })
+  }
+
+  zipChangeHandler(event) {
+    console.log(event.target.value);
+    this.setState({
+      user: {
+        ...this.state.user,
+        zipCode: event.target.value
       }
     })
   }
@@ -46,6 +58,8 @@ class App extends Component {
         <p> <input type="text" onChange={this.nameChangeHandler}/> </p>
         <p> The user is from {this.state.user.city}</p>
         <p> <input type="text" onChange={this.cityChangeHandler}/> </p>
+        <p> This zipcode is {this.state.user.zipCode} </p>
+        <p> <input type="text" onChange={this.zipChangeHandler} /></p>
       </div>
     );
   }
