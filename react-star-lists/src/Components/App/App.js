@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import Header from '../Header/Header';
+import CurrentNewStar from '../CurrentNewStar/CurrentNewStar';
+import StarList from '../StarList/StarList';
+import NewStarForm from '../NewStarForm/NewStarForm';
 
 class App extends Component {
   constructor(props) {
@@ -39,8 +43,7 @@ class App extends Component {
   //   })
   // }
 
-  handleChangeFor(propertyName) {
-    return(event) => {
+  handleChangeFor = propertyName => event => {
       this.setState({
         newStar: {
           ...this.state.newStar,
@@ -48,7 +51,7 @@ class App extends Component {
         }
       })
     }
-  }
+  
 
   handleSubmit(event) {
     event.preventDefault();
@@ -84,26 +87,13 @@ class App extends Component {
 
     return (
       <div>
-        {/* <div>
-          this.state: {JSON.stringify(this.state)}
-        </div>
-        <div>
-          {/* this.state.starList: { this.state.starList } */}
-          {/* React can display arrays directly to the DOM */}
-        {/* </div> */}
-        <div>
-          <div>
-            Current New Star is { this.state.newStar.name } with a diamter of {this.state.newStar.diameter}.
-          </div>
-          <form onSubmit={this.handleSubmit}>
-            <input onChange={this.handleChangeFor('name')} value={this.state.newStar.name}/>
-            <input onChange={this.handleChangeFor('diameter')} value={this.state.newStar.diameter}/>
-            <input type='submit' value='Submit New Star'/>
-          </form>
-        </div>
-        <ul>
-          {this.state.starList.map(star => <li key={star.name} >This star has a {star.name} and has a diamter of {star.diameter} </li>)}
-        </ul>
+        <Header />
+        <CurrentNewStar newStar={this.state.newStar}/>
+        <NewStarForm 
+          newStar={ this.state.newStar }
+          handleChangeFor={ this.handleChangeFor} 
+          handleSubmit={ this.handleSubmit }/>
+        <StarList starList={ this.state.starList }/>
       </div>
     );
   }
