@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import axios from 'axios';
+
 import Header from '../Header/Header';
 import CurrentNewStar from '../CurrentNewStar/CurrentNewStar';
 import StarList from '../StarList/StarList';
@@ -17,7 +19,8 @@ class App extends Component {
       newStar: {
         name: '',
         diameter: ''
-      }
+      },
+      planetList: []
     }
 
     // this.handleNameChange = this.handleNameChange.bind(this);
@@ -66,6 +69,22 @@ class App extends Component {
     })
   }
 
+  componentDidMount() {
+    console.log('component did mount');
+    this.getPlanets();
+  }
+
+  getPlanets() {
+    axios.get('https://swapi.co/api/planets/?format=json').then(response => {
+      console.log(response.data.results);
+      this.setState({
+        planetList: response.data.results
+      })
+    }).catch(error => {
+      console.log(error);
+    })
+  }
+
   render() {
     
     //ES6 one line function
@@ -94,6 +113,9 @@ class App extends Component {
           handleChangeFor={ this.handleChangeFor} 
           handleSubmit={ this.handleSubmit }/>
         <StarList starList={ this.state.starList }/>
+        <ul>
+          {this.state.planetList.map( planet => <li > {planet.name} </li>)}
+        </ul>
       </div>
     );
   }
