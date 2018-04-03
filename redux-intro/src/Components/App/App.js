@@ -9,44 +9,63 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      newElement: ''
+      newElement: {
+        name: '',
+        atomicWeight: ''
+      }
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.clearList = this.clearList.bind(this);
   }
 
-  handleChange(event){
+
+  handleChange = propertyName => event => {
+    console.log(propertyName)
     this.setState({
-      newElement: event.target.value
+      newElement: {
+        ...this.state.newElement,
+        [propertyName]: event.target.value
+      }
     })
   }
 
-  handleClick() {
+  handleClick(event) {
+    event.preventDefault();
     this.props.dispatch({ type: 'ADD-ELEMENT', payload: this.state.newElement })
     this.setState({
-      newElement: ''
+      newElement: {
+        name: '',
+        atomicWeight: ''
+      }
     })
+  }
+
+  clearList() {
+    this.props.dispatch({ type: 'CLEAR-ELEMENT-LIST' })
   }
 
   render() {
     return (
       <div >
-        <button onClick={() => this.props.dispatch({ type: 'BUTTON-ONE' })}>Button One</button>
-        {/* dispatch is something that react redux creates for us */}
-        {/* dispatching an action */}
-        {/* by convention, the type should be all caps */}
-        <button onClick={() => this.props.dispatch({ type: 'BUTTON-TWO' })}>Button Two</button>
-        <input value={this.state.newElement} onChange={this.handleChange}/>
-        <button onClick={this.handleClick}>Add Element</button>
-        <pre>{JSON.stringify(this.props.reduxState)}</pre>
+        <form onSubmit={ this.handleClick }>
+          <input value={this.state.newElement.name} onChange={this.handleChange('name')}/>
+          <input value={this.state.newElement.atomicWeight} onChange={this.handleChange('atomicWeight')}/>
+          <input type="submit" value="Add Element" />
+          <button onClick={this.clearList}>Clear List</button>
+        </form>
+        <pre>{JSON.stringify(this.props.state)}</pre>
+        <ul>
+          { this.props.state.elementList.map(element => <li key={ element.name }>The element { element.name } weighs: { element.atomicWeight }</li>) }
+        </ul>
       </div>
     );
   }
 }
 
-const mapReduxStateToProps = reduxState => ({
-  reduxState
+const mapReduxStateToProps = state => ({
+  state
 })
 
 export default connect(mapReduxStateToProps)(App);

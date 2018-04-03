@@ -24,16 +24,19 @@ const secondReducer = (state = 100, action) => {
   return state;
 }
 
-const elementListReducer = (state = [], action) => {
+const elementList = (state = [], action) => {
   switch(action.type) {
     case 'ADD-ELEMENT':
       return [...state, action.payload];
+    case 'CLEAR-ELEMENT-LIST':
+      return [];
     default:
       return state;
   }
   // console.log('the new element was');
-  return 3;
+  // return 3;
 }
+
 
 //this is creating the store
 //the store is the big JS object that holds all of the information for our application
@@ -41,7 +44,7 @@ const storeInstance = createStore(
   combineReducers({
     firstReducer,
     secondReducer,
-    elementListReducer,
+    elementList,
   })
   // () => {
   //   console.log('heyo, I am a reducer');
